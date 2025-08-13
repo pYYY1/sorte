@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+	<meta charset="UTF-8" />
+	<meta name="viewport" content="width=device-width,initial-scale=1" />
+	<title>damn girl 🍯</title>
+	<meta name="description" content="Mensagem de boa sorte para a entrevista" />
+	<link rel="preload" href="style.css" as="style" />
+	<link rel="stylesheet" href="style.css" />
+	<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 120 120'><text y='0.9em' font-size='90'>🍯</text></svg>">
+</head>
+<body>
+	<div class="overlay-gradient" aria-hidden="true"></div>
+
+	<main class="page" role="main">
+		<header class="hero" aria-label="Mensagem principal">
+			<h1><span class="wave">📝</span> Entrevista amanha vai dar bom eu confio !! <span class="spark">📝</span></h1>
+			<p class="lead">Pensa que assim que sair da entrevista ja vai dale um beckzim de maconha !!!</p>
+		</header>
+
+		<section class="gallery" aria-label="Mensagem secundaria">
+			<h2>Dale pau neles</h2>
+			<div class="grid">
+				<figure class="card" data-msg="los lafufus">
+					<img src="https://droper-lapse.us-southeast-1.linodeobjects.com/20250520212657701-323.webp" alt="labubu1" loading="lazy" />
+					<figcaption>lafufu</figcaption>
+				</figure>
+				<figure class="card" data-msg="tu eevee">
+					<img src="https://repositorio.sbrauble.com/arquivos/up/pokedex/471.svg" alt="glaceon" loading="lazy" />
+					<figcaption>glaceon pika</figcaption>
+				</figure>
+				<figure class="card" data-msg="raspa eles">
+					<img src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/22/GABRIEL_VELLA_vs_ROMINHO_51.jpg/330px-GABRIEL_VELLA_vs_ROMINHO_51.jpg" alt="dale jiu" loading="lazy" />
+					<figcaption>jiu neles</figcaption>
+				</figure>
+				<figure class="card" data-msg="teu banheiro pra esquisito">
+					<img src="https://pbs.twimg.com/media/GxwY4N-WMAAFWjh?format=jpg&name=small" alt="sonic" loading="lazy" />
+					<figcaption>sonic porra</figcaption>
+				</figure>
+			</div>
+		</section>
+
+		<section class="music" aria-label="Música que lembra ela">
+			<h2>vai pra entrevista escutando musica boa ai</h2>
+			<p>escuta essa banger: <a id="music-link" href="https://www.youtube.com/watch?v=3FPEYy9Kc9o" target="_blank" rel="noopener">clica ▶</a></p>
+		</section>
+
+		<footer class="footer">
+			<p>presentim ruim pra tu <span aria-hidden="true">🍯</span></p>
+		</footer>
+	</main>
+
+	<button class="btn-confetti" type="button" aria-label="Espalhar brilho">clica</button>
+	<div class="modal" id="msg-modal" role="dialog" aria-modal="true" aria-labelledby="modal-title" aria-hidden="true">
+		<div class="modal-backdrop" data-close></div>
+		<div class="modal-dialog" role="document" tabindex="-1">
+			<button class="modal-close" type="button" aria-label="Fechar" data-close>&times;</button>
+			<h2 id="modal-title">saudade tua vida</h2>
+			<p class="modal-text">to torcendo pra dar tudo certo ai!!</p>
+            <img class="modal-img" src="https://pbs.twimg.com/media/GxZ1UJyWkAAZBPB?format=jpg&name=small" alt="Foto lembrança" loading="lazy" />
+		</div>
+	</div>
+
+	<script>
+		const makeSpark = (x, y) => {
+			const el = document.createElement('div');
+			el.className = 'sparkle';
+			el.style.left = x + 'px';
+			el.style.top = y + 'px';
+			el.style.setProperty('--h', Math.random() * 360);
+			document.body.appendChild(el);
+			setTimeout(() => el.remove(), 2200);
+		};
+		const fireBurst = (x, y, n = 14) => {
+			for (let i = 0; i < n; i++) {
+				setTimeout(() => makeSpark(x + (Math.random()-0.5)*40, y + (Math.random()-0.5)*40), i * 30);
+			}
+		};
+		const confettiBtn = document.querySelector('.btn-confetti');
+		const modal = document.getElementById('msg-modal');
+		const modalDialog = modal.querySelector('.modal-dialog');
+
+		function openModal() {
+			console.log('abrindo modal');
+			modal.removeAttribute('aria-hidden');
+			modal.classList.add('show');
+			previousActive = document.activeElement;
+			requestAnimationFrame(()=> modalDialog.focus());
+		}
+		function closeModal() {
+			console.log('fechando modal');
+			modal.setAttribute('aria-hidden','true');
+			modal.classList.remove('show');
+			if (previousActive) previousActive.focus();
+		}
+
+		let previousActive = null;
+
+		confettiBtn.addEventListener('click', e => {
+			const rect = e.target.getBoundingClientRect();
+			fireBurst(rect.left + rect.width/2, rect.top + rect.height/2);
+			openModal();
+		});
+
+		modal.addEventListener('click', e => {
+			if (e.target.matches('[data-close]')) closeModal();
+		});
+		document.addEventListener('keydown', e => {
+			if (e.key === 'Escape' && modal.classList.contains('show')) closeModal();
+		});
+
+		// impedir rolagem de fundo quando aberto
+		const observer = new MutationObserver(() => {
+			if (modal.classList.contains('show')) {
+				document.documentElement.style.overflow = 'hidden';
+			} else {
+				document.documentElement.style.overflow = '';
+			}
+		});
+		observer.observe(modal, { attributes:true, attributeFilter:['class'] });
+		document.addEventListener('click', e => {
+			if (!e.target.closest('.btn-confetti')) fireBurst(e.clientX, e.clientY, 10);
+		});
+		document.querySelectorAll('.card').forEach(card => {
+			card.addEventListener('click', () => {
+				const msg = card.dataset.msg;
+				card.classList.toggle('flipped');
+				if (msg && !card.querySelector('.bubble')) {
+					const b = document.createElement('div');
+					b.className = 'bubble';
+					b.textContent = msg;
+					card.appendChild(b);
+					setTimeout(()=>b.classList.add('show'),10);
+				}
+			});
+		});
+	</script>
+</body>
+</html>
